@@ -147,6 +147,17 @@ body {
 
 
 
+
+  /* 
+.bug {
+    position: absolute;
+    left:300px; top:500px;
+    height: 30px;
+    transform: rotate(20deg);
+} */
+
+
+
   
 /* .big-text-20 {font-size: 20px;}
 .big-text-21 {font-size: 21px;}

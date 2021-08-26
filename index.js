@@ -25,6 +25,8 @@ htmlToAdd += `
 
 document.querySelector('#board-div').innerHTML = htmlToAdd;
 
+
+
 const cellsWithZeros = [];
 const alreadyCheckedCells = [];
 
@@ -64,14 +66,15 @@ function checkCell(el) {
     if (elementValue === 'm') {
         element.className = 'cell exploded';
         playAudio(boom);
+        
 
         document.querySelectorAll('.cell').forEach((element) => {
             element.removeEventListener('click', checkCell);
         })
 
-        // --- This is not working to remove the right-click listener here ---
+        // //--- This is not working to remove the right-click listener here ---
         // document.querySelectorAll('.cell').forEach((element) => {
-        //     element.removeEventListener('contextmenu', checkGameProgress);
+        //     element.removeEventListener('contextmenu', checkGameProgress());
         // })
 
 
@@ -186,9 +189,9 @@ document.querySelectorAll('.cell').forEach((element) => {
 
 document.querySelectorAll('.cell').forEach((element) => {
 
-    element.addEventListener('contextmenu', e => {
-        e.preventDefault();
-    })
+    // element.addEventListener('contextmenu', e => {
+    //     e.preventDefault();
+    // })
 
     element.addEventListener('contextmenu', (a) => {
 
@@ -246,11 +249,7 @@ function checkGameProgress() {
         
         document.querySelectorAll('.cell').forEach((element) => {
             element.removeEventListener('click', checkCell);
-        })
-        
-        document.querySelectorAll('.cell').forEach((element) => {
-            element.removeEventListener('contextmenu', checkGameProgress);
-        })
+        })        
     }
 }
 
