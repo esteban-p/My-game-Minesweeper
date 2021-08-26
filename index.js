@@ -26,10 +26,11 @@ htmlToAdd += `
 document.querySelector('#board-div').innerHTML = htmlToAdd;
 
 const cellsWithZeros = [];
-
 const alreadyCheckedCells = [];
 
+
 function checkCell(el) {
+
     //console.log('Cell clicked: ', element);
     // only if the parameter is a dom element we can use it directly  
     // otherwise we have to use the target of the event
@@ -63,6 +64,17 @@ function checkCell(el) {
     if (elementValue === 'm') {
         element.className = 'cell exploded';
         playAudio(boom);
+
+        document.querySelectorAll('.cell').forEach((element) => {
+            element.removeEventListener('click', checkCell);
+        })
+
+        // --- This is not working to remove the right-click listener here ---
+        // document.querySelectorAll('.cell').forEach((element) => {
+        //     element.removeEventListener('contextmenu', checkGameProgress);
+        // })
+
+
         document.querySelectorAll('.cell').forEach((el) => {
             const elValue = el.querySelector('span').innerHTML;
             if (el.getAttribute('id') !== element.getAttribute('id')) {
@@ -78,6 +90,7 @@ function checkCell(el) {
                 else if (elValue === '8') { el.className = 'cell value-8'; }
             }
         });
+
 
         document.querySelector('#message').innerHTML = gameOverPick;
 
@@ -139,14 +152,14 @@ function checkCell(el) {
 
         // ---  Change class to the numbered cells ---
     }
-    else if (elementValue === '1') {element.className = 'cell value-1';}
-    else if (elementValue === '2') {element.className = 'cell value-2';}
-    else if (elementValue === '3') {element.className = 'cell value-3';}
-    else if (elementValue === '4') {element.className = 'cell value-4';}
-    else if (elementValue === '5') {element.className = 'cell value-5';}
-    else if (elementValue === '6') {element.className = 'cell value-6';}
-    else if (elementValue === '7') {element.className = 'cell value-7';}
-    else if (elementValue === '8') {element.className = 'cell value-8';}
+    else if (elementValue === '1') {element.className = 'cell value-1'; checkGameProgress()}
+    else if (elementValue === '2') {element.className = 'cell value-2'; checkGameProgress()}
+    else if (elementValue === '3') {element.className = 'cell value-3'; checkGameProgress()}
+    else if (elementValue === '4') {element.className = 'cell value-4'; checkGameProgress()}
+    else if (elementValue === '5') {element.className = 'cell value-5'; checkGameProgress()}
+    else if (elementValue === '6') {element.className = 'cell value-6'; checkGameProgress()}
+    else if (elementValue === '7') {element.className = 'cell value-7'; checkGameProgress()}
+    else if (elementValue === '8') {element.className = 'cell value-8'; checkGameProgress()}
 
     while (cellsWithZeros.length !== 0) {
         const checkedCell = cellsWithZeros.pop();
@@ -162,7 +175,9 @@ function checkCell(el) {
 document.querySelectorAll('.cell').forEach((element) => {
     element.addEventListener('click', checkCell)
 });
-
+document.querySelectorAll('.cell').forEach((element) => {
+    element.addEventListener('click', checkGameProgress())
+});
 
 
 
@@ -175,7 +190,7 @@ document.querySelectorAll('.cell').forEach((element) => {
         e.preventDefault();
     })
 
-    element.addEventListener('contextmenu', () => {
+    element.addEventListener('contextmenu', (a) => {
 
         let currentClass = element.getAttribute('class');
         if (currentClass === 'cell covered') {
@@ -193,7 +208,7 @@ document.querySelectorAll('.cell').forEach((element) => {
 // -------- Count flagged mines  ---------
 
 let minesCount = 0
-let flaggedMinesCount = 0
+//let flaggedMinesCount = 0
 document.querySelectorAll('.cell').forEach((element) => {
     if (element.querySelector('span').innerHTML === 'm') {
         minesCount += 1;
@@ -210,16 +225,32 @@ document.querySelectorAll('.cell').forEach((element) => {
     })
 })
 
-function checkGameProgress(element) {
-    let currentClass = element.getAttribute('class');
-    let cellValue = element.querySelector('span').innerHTML;
-    if (currentClass === 'cell flagged' && cellValue === 'm') {
-        flaggedMinesCount += 1;
-        console.log(flaggedMinesCount);
-    }
-    if (flaggedMinesCount === minesCount) {
+
+
+
+// -------- Check game state  ---------
+
+function checkGameProgress() {
+
+    let stillCoveredCells = 0;
+    document.querySelectorAll('.cell').forEach((element) => {
+        if (element.getAttribute('class') === 'cell covered') {
+            stillCoveredCells += 1;
+        }
+    })
+    console.log(stillCoveredCells);
+
+    if (stillCoveredCells === 0) {
         document.querySelector('#message').innerHTML = youWonPick;
         playAudio(goodJob);
+        
+        document.querySelectorAll('.cell').forEach((element) => {
+            element.removeEventListener('click', checkCell);
+        })
+        
+        document.querySelectorAll('.cell').forEach((element) => {
+            element.removeEventListener('contextmenu', checkGameProgress);
+        })
     }
 }
 
@@ -231,7 +262,7 @@ function checkGameProgress(element) {
 // -------- End messages  ---------
 
 let gameOver = [];
-gameOver.push("Bet you didn't see that coming 😜 ");
+gameOver.push("I bet you didn't see that coming 😜 ");
 gameOver.push("Better luck next time 🤷🏻‍♂️ ");
 gameOver.push("Uhhh... you were so close! 🥺 ");
 gameOver.push("Hahaha... looser! 🤣 ");
@@ -267,3 +298,158 @@ let goodJob = document.querySelector('#applause-sound');
 function playAudio(audio) {
     audio.play();
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// function bigText20() {document.querySelector('#message').className = 'big-text-20';}
+// function bigText21() {document.querySelector('#message').className = 'big-text-21';}
+// function bigText22() {document.querySelector('#message').className = 'big-text-22';}
+// function bigText23() {document.querySelector('#message').className = 'big-text-23';}
+// function bigText24() {document.querySelector('#message').className = 'big-text-24';}
+// function bigText25() {document.querySelector('#message').className = 'big-text-25';}
+// function bigText26() {document.querySelector('#message').className = 'big-text-26';}
+// function bigText27() {document.querySelector('#message').className = 'big-text-27';}
+// function bigText28() {document.querySelector('#message').className = 'big-text-28';}
+// function bigText29() {document.querySelector('#message').className = 'big-text-29';}
+// function bigText30() {document.querySelector('#message').className = 'big-text-30';}
+// function bigText31() {document.querySelector('#message').className = 'big-text-31';}
+// function bigText32() {document.querySelector('#message').className = 'big-text-32';}
+// function bigText33() {document.querySelector('#message').className = 'big-text-33';}
+// function bigText34() {document.querySelector('#message').className = 'big-text-34';}
+// function bigText35() {document.querySelector('#message').className = 'big-text-35';}
+// function bigText36() {document.querySelector('#message').className = 'big-text-36';}
+// function bigText37() {document.querySelector('#message').className = 'big-text-37';}
+// function bigText38() {document.querySelector('#message').className = 'big-text-38';}
+// function bigText39() {document.querySelector('#message').className = 'big-text-39';}
+// function bigText40() {document.querySelector('#message').className = 'big-text-40';}
+
+// setTimeout(function () {bigText21()}, 1000);
+// setTimeout(function () {bigText22()}, 1000);
+// setTimeout(function () {bigText23()}, 1000);
+// setTimeout(function () {bigText24()}, 1000);
+// setTimeout(function () {bigText25()}, 1000);
+// setTimeout(function () {bigText26()}, 1000);
+// setTimeout(function () {bigText27()}, 1000);
+// setTimeout(function () {bigText28()}, 1000);
+// setTimeout(function () {bigText29()}, 1000);
+// setTimeout(function () {bigText30()}, 1000);
+// setTimeout(function () {bigText31()}, 1000);
+// setTimeout(function () {bigText32()}, 1000);
+// setTimeout(function () {bigText33()}, 1000);
+// setTimeout(function () {bigText34()}, 1000);
+// setTimeout(function () {bigText35()}, 1000);
+// setTimeout(function () {bigText36()}, 1000);
+// setTimeout(function () {bigText37()}, 1000);
+// setTimeout(function () {bigText38()}, 1000);
+// setTimeout(function () {bigText39()}, 1000);
+// setTimeout(function () {bigText40()}, 1000);
+// setTimeout(function () {bigText39()}, 1000);
+// setTimeout(function () {bigText38()}, 1000);
+// setTimeout(function () {bigText37()}, 1000);
+// setTimeout(function () {bigText36()}, 1000);
+// setTimeout(function () {bigText35()}, 1000);
+// setTimeout(function () {bigText34()}, 1000);
+// setTimeout(function () {bigText33()}, 1000);
+// setTimeout(function () {bigText32()}, 1000);
+// setTimeout(function () {bigText31()}, 1000);
+// setTimeout(function () {bigText30()}, 1000);
+// setTimeout(function () {bigText29()}, 1000);
+// setTimeout(function () {bigText28()}, 1000);
+// setTimeout(function () {bigText27()}, 1000);
+// setTimeout(function () {bigText26()}, 1000);
+// setTimeout(function () {bigText25()}, 1000);
+// setTimeout(function () {bigText24()}, 1000);
+// setTimeout(function () {bigText23()}, 1000);
+// setTimeout(function () {bigText22()}, 1000);
+// setTimeout(function () {bigText21()}, 1000);
+// setTimeout(function () {bigText20()}, 1000);
+
+
+
+// function checkGameProgress(element) {
+//     let currentClass = element.getAttribute('class');
+//     let cellValue = element.querySelector('span').innerHTML;
+//     if (currentClass === 'cell flagged' && cellValue === 'm') {
+//         flaggedMinesCount += 1;
+//         console.log(flaggedMinesCount);
+//     }
+//     if (flaggedMinesCount === minesCount) {
+        
+//         document.querySelector('#message').innerHTML = youWonPick;
+//         playAudio(goodJob);
+//         document.querySelectorAll('.cell').forEach((element) => {
+//             element.removeEventListener('click', checkCell);
+//         })
+//         document.querySelectorAll('.cell').forEach((element) => {
+//         element.removeEventListener('contextmenu', checkGameProgress);
+//         })
+//     }
+// }
+
+
+
+
+
+// function checkGameProgress(element) {
+//     let currentClass = element.getAttribute('class');
+//     let cellValue = element.querySelector('span').innerHTML;
+    
+//     let flaggedMinesCount = 0
+//     document.querySelectorAll('.cell').forEach((element) => {
+//         if (element.getAttribute('class') === 'cell flagged' 
+//             && 
+//             element.querySelector('span').innerHTML === 'm') {
+
+//                 flaggedMinesCount += 1;
+//                 console.log(flaggedMinesCount);
+//         }
+//     })
+
+//     let stillCoveredCells = 0;
+//     document.querySelectorAll('.cell').forEach((element) => {
+//         if (element.getAttribute('class') === 'cell covered') {
+//             stillCoveredCells += 1;
+//         }
+//     })
+//     console.log(stillCoveredCells);
+
+//     if (flaggedMinesCount === minesCount && stillCoveredCells === 0) {
+        
+//         document.querySelector('#message').innerHTML = youWonPick;
+//         playAudio(goodJob);
+//         document.querySelectorAll('.cell').forEach((element) => {
+//             element.removeEventListener('click', checkCell);
+//         })
+//         document.querySelectorAll('.cell').forEach((element) => {
+//         element.removeEventListener('contextmenu', checkGameProgress);
+//         })
+//     }
+// }
