@@ -241,26 +241,9 @@ function checkGameProgress() {
             stillCoveredCells += 1;
         }
     })
+    console.log(stillCoveredCells);
 
-    let totalFlaggedCells = 0;
-    document.querySelectorAll('.cell').forEach((element) => {
-        if (element.getAttribute('class') === 'cell flagged') {
-            totalFlaggedCells += 1;
-        }
-    })
-
-    let totalQuestionedCells = 0;
-    document.querySelectorAll('.cell').forEach((element) => {
-        if (element.getAttribute('class') === 'cell questioned') {
-            totalQuestionedCells += 1;
-        }
-    })
-    
-
-    if (stillCoveredCells === 0 
-        && totalFlaggedCells === 10 
-        && totalQuestionedCells === 0) {
-            
+    if (stillCoveredCells === 0) {
         document.querySelector('#message').innerHTML = youWonPick;
         playAudio(goodJob);
         
