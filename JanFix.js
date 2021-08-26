@@ -22,7 +22,7 @@ htmlToAdd += `
 </tbody>
 </table>
 `;
-
+//console.log(htmlToAdd);
 document.querySelector('#board-div').innerHTML = htmlToAdd;
 
 const cellsWithZeros = [];
@@ -40,12 +40,17 @@ function checkCell(el) {
     } else {
         element = el.currentTarget;
     }
+    console.log(element);
 
     if (el === null) return;
     const elementValue = element.querySelector('span').innerHTML;
+    //console.log(elementValue);
     const elementID = element.getAttribute('id');
+    console.log('Clicked cell ID:' + elementID);
     const elementRow = elementID.slice(1, 2);
+    console.log(elementRow);
     const elementCol = elementID.slice(3, 4);
+    console.log(elementCol);
 
     const element_N_Id = 'r' + (+elementRow - 1) + 'c' + (+elementCol);
     const element_NE_Id = 'r' + (+elementRow - 1) + 'c' + (+elementCol + 1);
@@ -57,12 +62,10 @@ function checkCell(el) {
     const element_NW_Id = 'r' + (+elementRow - 1) + 'c' + (+elementCol - 1);
 
 
-
     // --- When a mine is left-clicked ---
 
     if (elementValue === 'm') {
         element.className = 'cell exploded';
-        playAudio(boom);
         document.querySelectorAll('.cell').forEach((el) => {
             const elValue = el.querySelector('span').innerHTML;
             if (el.getAttribute('id') !== element.getAttribute('id')) {
@@ -80,8 +83,6 @@ function checkCell(el) {
         });
 
         document.querySelector('#message').innerHTML = gameOverPick;
-
-
 
         // ---  To blank cells ---
 
@@ -104,6 +105,7 @@ function checkCell(el) {
         // -------- Function called for each adjacent when the left-clicked cell is value zero  ---------
 
         function checkAdjCells(coordinates) {
+            //console.log(document.querySelector('span').innerHTML);
 
             if (coordinates.length > 4) { return };
             let row = coordinates.slice(1, 2);
@@ -114,13 +116,15 @@ function checkCell(el) {
             if (row == '0') { return; }
 
             let valueToCheck = document.querySelector(`#r${row}c${col} span`).innerHTML;
+            //console.log('valueToCheck: ' + valueToCheck);
 
 
             if (valueToCheck === '0' && !alreadyCheckedCells.includes(coordinates)) {
-                //console.log(coordinates + ' is a zero... Now what!?');
+                console.log(coordinates + ' is a zero... Now what!?');
                 cellsWithZeros.push(coordinates);
-                //console.log(cellsWithZeros);
-
+                console.log(cellsWithZeros);
+                // to make the function loop work here ???
+                // uncoverAroundZero(coordinates);
 
             }
             else if (valueToCheck === '1') { cellToCheck.className = 'cell value-1'; }
@@ -138,16 +142,24 @@ function checkCell(el) {
 
 
         // ---  Change class to the numbered cells ---
-    }
-    else if (elementValue === '1') {element.className = 'cell value-1';}
-    else if (elementValue === '2') {element.className = 'cell value-2';}
-    else if (elementValue === '3') {element.className = 'cell value-3';}
-    else if (elementValue === '4') {element.className = 'cell value-4';}
-    else if (elementValue === '5') {element.className = 'cell value-5';}
-    else if (elementValue === '6') {element.className = 'cell value-6';}
-    else if (elementValue === '7') {element.className = 'cell value-7';}
-    else if (elementValue === '8') {element.className = 'cell value-8';}
 
+    } else if (elementValue === '1') {
+        element.className = 'cell value-1';
+    } else if (elementValue === '2') {
+        element.className = 'cell value-2';
+    } else if (elementValue === '3') {
+        element.className = 'cell value-3';
+    } else if (elementValue === '4') {
+        element.className = 'cell value-4';
+    } else if (elementValue === '5') {
+        element.className = 'cell value-5';
+    } else if (elementValue === '6') {
+        element.className = 'cell value-6';
+    } else if (elementValue === '7') {
+        element.className = 'cell value-7';
+    } else if (elementValue === '8') {
+        element.className = 'cell value-8';
+    }
     while (cellsWithZeros.length !== 0) {
         const checkedCell = cellsWithZeros.pop();
         alreadyCheckedCells.push(checkedCell);
@@ -199,7 +211,8 @@ document.querySelectorAll('.cell').forEach((element) => {
         minesCount += 1;
     }
 })
-
+// console.log('Total mines in board: ' + minesCount);
+// console.log('Mines already flagged: ' + flaggedMinesCount);
 
 document.querySelectorAll('.cell').forEach((element) => {
     element.addEventListener('contextmenu', e => {
@@ -221,7 +234,6 @@ function checkGameProgress(element) {
         document.querySelector('#message').innerHTML = youWonPick;
     }
 }
-
 
 
 
@@ -255,9 +267,3 @@ let youWonPick = youWon[randomNumYouWon];
 
 
 
-// -------- Explosion sound ---------
-
-let boom = document.querySelector('#explosion-sound');
-function playAudio(audio) {
-    audio.play();
-}

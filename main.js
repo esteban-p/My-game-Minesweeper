@@ -157,45 +157,45 @@ function calculateCellValue(row, col) {
     let dirSW = board[row+1][col-1];
     let dirW = board[row][col-1];
     let dirNW = board[row-1][col-1];
-    let adjacentms = 0;
+    let adjacentns = 0;
 
     // This cell value check
     if (board[row][col].value !== 'm') {
 
             // N cell value check
             if (dirN.value === 'm') {
-                adjacentms += 1;
+                adjacentns += 1;
             }
             // NE cell value check
             if (dirNE.value === 'm') {
-                adjacentms += 1;
+                adjacentns += 1;
             }
             // E cell value check
             if (dirE.value === 'm') {
-                adjacentms += 1;
+                adjacentns += 1;
             }
             // SE cell value check
             if (dirSE.value === 'm') {
-                adjacentms += 1;
+                adjacentns += 1;
             }
             // S cell value check
             if (dirS.value === 'm') {
-                adjacentms += 1;
+                adjacentns += 1;
             }
             // SW cell value check
             if (dirSW.value === 'm') {
-                adjacentms += 1;
+                adjacentns += 1;
             }
             // W cell value check
             if (dirW.value === 'm') {
-                adjacentms += 1;
+                adjacentns += 1;
             }
             // NW cell value check
             if (dirNW.value === 'm') {
-                adjacentms += 1;
+                adjacentns += 1;
             }
     }
-    return adjacentms;
+    return adjacentns;
 };
 
 //console.log(calculateCellValue(4,7));
