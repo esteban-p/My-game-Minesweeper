@@ -57,6 +57,7 @@ document.querySelectorAll('.cell').forEach((element) => {
 
         if (elementValue === 'm') {
         element.className = 'cell exploded';
+        playAudio(boom);
         document.querySelectorAll('.cell').forEach((el) => {
             const elValue = el.querySelector('span').innerHTML;
             if ( el.getAttribute('id') !== element.getAttribute('id') ) {
@@ -90,7 +91,7 @@ document.querySelectorAll('.cell').forEach((element) => {
             checkAdjCells(element_W_Id);
             checkAdjCells(element_NW_Id);
         }
-        uncoverAroundZero(elementID)
+        uncoverAroundZero(elementID);
 
 
                 // -------- Function called for each adjacent when the left-clicked cell is value zero  ---------
@@ -133,23 +134,16 @@ document.querySelectorAll('.cell').forEach((element) => {
 
             // ---  Change class to the numbered cells ---
 
-        } else if (elementValue === '1') {
-            element.className = 'cell value-1';
-        } else if (elementValue === '2') {
-            element.className = 'cell value-2';
-        } else if (elementValue === '3') {
-            element.className = 'cell value-3';
-        } else if (elementValue === '4') {
-            element.className = 'cell value-4';
-        } else if (elementValue === '5') {
-            element.className = 'cell value-5';
-        } else if (elementValue === '6') {
-            element.className = 'cell value-6';
-        } else if (elementValue === '7') {
-            element.className = 'cell value-7';
-        } else if (elementValue === '8') {
-            element.className = 'cell value-8';
         } 
+         else if (elementValue === '1') {element.className = 'cell value-1';}
+         else if (elementValue === '2') {element.className = 'cell value-2';}
+         else if (elementValue === '3') {element.className = 'cell value-3';}
+         else if (elementValue === '4') {element.className = 'cell value-4';}
+         else if (elementValue === '5') {element.className = 'cell value-5';}
+         else if (elementValue === '6') {element.className = 'cell value-6';}
+         else if (elementValue === '7') {element.className = 'cell value-7';}
+         else if (elementValue === '8') {element.className = 'cell value-8';}
+         
 
 
     })
@@ -170,15 +164,10 @@ document.querySelectorAll('.cell').forEach((element) => {
     })
     
     element.addEventListener('contextmenu', () => {
-        
         let currentClass = element.getAttribute('class');
-        if (currentClass === 'cell covered') {
-            currentClass = 'cell flagged';
-        } else if (currentClass === 'cell flagged') {
-            currentClass = 'cell questioned';
-        } else if (currentClass === 'cell questioned') {
-            currentClass = 'cell covered';
-        }
+        if (currentClass === 'cell covered') {currentClass = 'cell flagged';} 
+        else if (currentClass === 'cell flagged') {currentClass = 'cell questioned';}
+        else if (currentClass === 'cell questioned') {currentClass = 'cell covered';}
         element.className = currentClass;
     })
 })
@@ -224,7 +213,7 @@ function checkGameProgress(element) {
 // -------- End messages  ---------
 
 let gameOver = [];
-gameOver.push("Bet you didn't see that coming 😜 ");
+gameOver.push("I bet you didn't see that coming 😜 ");
 gameOver.push("Better luck next time 🤷🏻‍♂️ "); 
 gameOver.push("Uhhh... you were so close! 🥺 ");
 gameOver.push("Hahaha... looser! 🤣 "); 
@@ -247,9 +236,12 @@ let randomNumYouWon = (Math.floor(Math.random() * youWon.length));
 let youWonPick = youWon[randomNumYouWon];
 
 
+// -------- Explosion sound ---------
 
-
-
+let boom = document.querySelector('#explosion-sound');
+function playAudio(audio) {
+    audio.play();
+}
 
 
 
