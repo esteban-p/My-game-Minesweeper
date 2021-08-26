@@ -219,6 +219,7 @@ function checkGameProgress(element) {
     }
     if (flaggedMinesCount === minesCount) {
         document.querySelector('#message').innerHTML = youWonPick;
+        playAudio(goodJob);
     }
 }
 
@@ -255,9 +256,14 @@ let youWonPick = youWon[randomNumYouWon];
 
 
 
-// -------- Explosion sound ---------
+// -------- Sounds ---------
 
 let boom = document.querySelector('#explosion-sound');
+function playAudio(audio) {
+    audio.play();
+}
+
+let goodJob = document.querySelector('#applause-sound');
 function playAudio(audio) {
     audio.play();
 }
